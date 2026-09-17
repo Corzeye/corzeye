@@ -241,7 +241,7 @@ sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</
 
 <div class="video-overlay" id="video-overlay">
   <button id="close-video" aria-label="Sulje">&times;</button>
-  <video id="modal-video" controls playsinline></video>
+  <video id="modal-video" controls playsinline webkit-playsinline preload="auto"></video>
 </div>
 
 <script>
@@ -255,6 +255,7 @@ sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
     modalVideo.muted = false;
+    modalVideo.volume = 1;
     var playPromise = modalVideo.play();
     if (playPromise) { playPromise.catch(function(){}); }
   }
@@ -274,6 +275,10 @@ sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</
   });
 
   closeBtn.addEventListener('click', closeVideo);
+
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) closeVideo();
+  });
 
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && overlay.classList.contains('open')) closeVideo();
